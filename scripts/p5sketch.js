@@ -51,11 +51,11 @@ class CellTypes {
 		form.appendChild(document.createTextNode(" "));
 		form.appendChild(label);
 
-		const colorSquare = document.createElement("div");
-		colorSquare.classList.add("colorsquare");
-		colorSquare.style.backgroundColor = cellType.color;
+		const colorLabel = document.createElement("div");
+		colorLabel.classList.add("color-label");
+		colorLabel.style.backgroundColor = cellType.color;
 		form.appendChild(document.createTextNode(" "));
-		form.appendChild(colorSquare);
+		form.appendChild(colorLabel);
 	}
 
 	static {
