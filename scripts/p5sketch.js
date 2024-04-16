@@ -117,6 +117,15 @@ class Grid {
 			}
 		}
 	}
+
+	equals(other) {
+		for (let c = 0; c < this.width; c++) {
+			for (let r = 0; r < this.height; r++) {
+				if (this.mat[c][r] != other.get(c, r)) return false;
+			}
+		}
+		return true;
+	}
 }
 
 let mainGrid = new Grid(_gridWidth, _gridHeight);
@@ -235,11 +244,6 @@ function drawGrid() {
 function nextGrid() {
 	for (let c = 0; c < _gridWidth; c++) {
 		for (let r = 0; r < _gridHeight; r++) {
-			// if (oldGrid.get(c, r) == 1) {
-			// 	mainGrid.set(c + 1, r + 1, 1);
-			// 	mainGrid.set(c, r, 0);
-			// }
-
 			mainGrid.set(c, r, 0);
 			for (let i = 1; i < CellTypes.size; i++) {
 				const res = CellTypes.getCellType(i).ruleset(oldGrid, c, r, 0, i, CellTypes);
@@ -251,15 +255,23 @@ function nextGrid() {
 		}
 	}
 
-	oldGrid.copyFrom(mainGrid);
+	// Stop playing if there is no change
+	if (oldGrid.equals(mainGrid)) {
+		gameStarted = false;
+		document.getElementById("start-checkbox").checked = false;
+	} else {
+		oldGrid.copyFrom(mainGrid);
+	
+		genCount++;
+		document.getElementById("gen-count").innerHTML = genCount;
+	
+		gridHistory[genCount] = new Grid(_gridWidth, _gridHeight);
+		gridHistory[genCount].copyFrom(mainGrid);
+	}
 
-	genCount++;
-	document.getElementById("gen-count").innerHTML = genCount;
-
-	gridHistory[genCount] = new Grid(_gridWidth, _gridHeight);
-	gridHistory[genCount].copyFrom(mainGrid);
-
-	document.getElementById("prev-button").disabled = false;
+	if (genCount > 0) {
+		document.getElementById("prev-button").disabled = false;
+	}
 }
 
 function dummyNextGrid() {
