@@ -191,7 +191,17 @@ function mouseReleased() {
 }
 
 function keyPressed() {
-
+	if (keyCode >= 48 && keyCode <= 57) {
+		const id = keyCode - 48;
+		console.log(id);
+		if (id < CellTypes.total) {
+			cellToPaint = id;
+			document.forms['form-paint-radio']['paint-radio'].value = CellTypes.getCellType(cellToPaint).name;
+		}
+	} else if (keyCode == 192 /* backtick */) {
+		cellToPaint = 0;
+		document.forms['form-paint-radio']['paint-radio'].value = CellTypes.getCellType(cellToPaint).name;
+	}
 }
 
 function drawGrid() {
