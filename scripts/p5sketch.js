@@ -155,7 +155,6 @@ function mouseReleased() {
 	if (!startedDrawingCells) return;
 
 	dummyNextGrid();
-	oldGrid.copyFrom(mainGrid);
 
 	startedDrawingCells = false;
 }
@@ -206,6 +205,7 @@ function dummyNextGrid() {
 
 	gridHistory[genCount] = new Grid(_gridWidth, _gridHeight);
 	gridHistory[genCount].copyFrom(mainGrid);
+	oldGrid.copyFrom(mainGrid);
 
 	document.getElementById("prev-button").disabled = false;
 }
@@ -275,6 +275,17 @@ document.getElementById("reset-button").onclick = function() {
 
 document.getElementById("save-button").onclick = function() {
 	saveGrid();
+	drawGrid();
+}
+
+document.getElementById("clear-button").onclick = function() {
+	for (let c = 0; c < _gridWidth; c++) {
+		for (let r = 0; r < _gridHeight; r++) {
+			mainGrid.set(c, r, 0);
+		}
+	}
+	dummyNextGrid();
+
 	drawGrid();
 }
 
