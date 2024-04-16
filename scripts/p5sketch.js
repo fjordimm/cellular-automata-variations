@@ -50,9 +50,11 @@ class Grid {
 let mainGrid = new Grid(_gridWidth, _gridHeight);
 let oldGrid = new Grid(_gridWidth, _gridHeight);
 
-let clock;
+let genCount;
+let gridHistory;
 
-let gameStarted = false;
+let gameStarted;
+let clock;
 
 function getClockInterval(x) {
 	return Math.floor(100 * Math.exp((x - 1) / 100 * Math.log(1/100)))
@@ -67,12 +69,18 @@ function setup() {
 
 	_col_background = color(9, 9, 30);
 	_col_gridLines = color(255, 255, 255);
-
-	clock = 0;
 	
 	mainGrid.set(1, 1, 1);
 	mainGrid.set(5, 3, 1);
 	oldGrid.copyFrom(mainGrid);
+
+	genCount = 0;
+	gridHistory = [];
+	gridHistory[0] = new Grid(_gridWidth, _gridHeight);
+	gridHistory[0].copyFrom(mainGrid);
+
+	gameStarted = false;
+	clock = 0;
 
 	drawGrid();
 }
@@ -80,7 +88,7 @@ function setup() {
 function draw() {
 	if (gameStarted) {
 		if (clock >= clockInterval) {
-			updateGrid();
+			nextGrid();
 			drawGrid();
 			clock = 0;
 		}
@@ -108,7 +116,7 @@ function drawGrid() {
 	}
 }
 
-function updateGrid() {
+function nextGrid() {
 	for (let c = 0; c < _gridWidth; c++) {
 		for (let r = 0; r < _gridHeight; r++) {
 			if (oldGrid.get(c, r) == 1) {
@@ -119,6 +127,33 @@ function updateGrid() {
 	}
 
 	oldGrid.copyFrom(mainGrid);
+
+	genCount++;
+	document.getElementById("gen-count").innerHTML = genCount;
+
+	gridHistory[genCount] = new Grid(_gridWidth, _gridHeight);
+	gridHistory[genCount].copyFrom(mainGrid);
+
+	document.getElementById("prev-button").disabled = false;
+}
+
+function prevGrid() {
+	gridHistory.pop();
+
+	genCount--;
+	document.getElementById("gen-count").innerHTML = genCount;
+
+	if (genCount <= 0) {
+		document.getElementById("prev-button").disabled = true;
+	}
+
+	mainGrid.copyFrom(gridHistory[genCount]);
+	oldGrid.copyFrom(gridHistory[genCount]);
+}
+
+document.getElementById("prev-button").onclick = function() {
+	prevGrid();
+	drawGrid();
 }
 
 document.getElementById("start-button").onclick = function() {
@@ -132,6 +167,6 @@ document.getElementById("start-button").onclick = function() {
 }
 
 document.getElementById("next-button").onclick = function() {
-	updateGrid();
+	nextGrid();
 	drawGrid();
 }
