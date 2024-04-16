@@ -1,5 +1,5 @@
 
 userCellTypesList = [
 	["Funny", "green", null],
-	["Yippee", "orange", null]
+	["Yippeeeeeeee", "orange", null]
 ];

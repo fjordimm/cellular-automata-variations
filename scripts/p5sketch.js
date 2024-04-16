@@ -50,11 +50,15 @@ class CellTypes {
 		label.innerHTML = cellType.name;
 		form.appendChild(document.createTextNode(" "));
 		form.appendChild(label);
+
+		const colorSquare = document.createElement("div");
+		colorSquare.classList.add("colorsquare");
+		colorSquare.style.backgroundColor = cellType.color;
+		form.appendChild(document.createTextNode(" "));
+		form.appendChild(colorSquare);
 	}
 
 	static {
-		// this.addCellType("Bruh", "blue", null);
-
 		for (let i = 0; i < userCellTypesList.length; i++) {
 			const cellTypeParams = userCellTypesList[i];
 			this.addCellType(cellTypeParams[0], cellTypeParams[1], cellTypeParams[2]);
