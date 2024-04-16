@@ -53,7 +53,12 @@ class CellTypes {
 	}
 
 	static {
-		this.addCellType("Bruh", "blue", null);
+		// this.addCellType("Bruh", "blue", null);
+
+		for (let i = 0; i < userCellTypesList.length; i++) {
+			const cellTypeParams = userCellTypesList[i];
+			this.addCellType(cellTypeParams[0], cellTypeParams[1], cellTypeParams[2]);
+		}
 	}
 }
 
