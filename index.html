@@ -11,6 +11,7 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+				gap: 5px;
 
 				margin-top: 50px;
 			}
@@ -20,6 +21,7 @@
 				flex-direction: row;
 				justify-content: center;
 				align-items: center;
+				gap: 5px;
 			}
 		</style>
 	</head>
@@ -29,10 +31,16 @@
 
 		<div class="horiz">
 			<span>🕔</span>
-			<input id="speed-slider" type="range" min="1" max="100" value="30">
+			<input id="speed-slider" type="range" min="1" max="100" value="40">
 		</div>
 
-		<button onclick="yippee()">yonk</button>
+		<button onclick="">Reset</button>
+
+		<div class="horiz">
+			<button onclick="">Undo</button>
+			<button id="play-pause-button">▶️</button>
+			<button onclick="">Next</button>
+		</div>
 	</body>
 
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.9.1/lib/p5.js"></script>

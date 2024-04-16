@@ -52,6 +52,8 @@ let oldGrid = new Grid(_gridWidth, _gridHeight);
 
 let clock;
 
+let gameStarted = false;
+
 function getClockInterval(x) {
 	return Math.floor(100 * Math.exp((x - 1) / 100 * Math.log(1/100)))
 }
@@ -64,7 +66,7 @@ function setup() {
 	createCanvas(_canvasWidth, _canvasHeight);
 
 	_col_background = color(9, 9, 30);
-	_col_gridLines = color(150, 150, 250);
+	_col_gridLines = color(255, 255, 255);
 
 	clock = clockInterval;
 	
@@ -79,7 +81,7 @@ function draw() {
 		updateGrid();
 		clock = 0;
 	}
-	clock++;	
+	if (gameStarted) clock++;
 }
 
 function drawGrid() {
@@ -115,6 +117,12 @@ function updateGrid() {
 	oldGrid.copyFrom(mainGrid);
 }
 
-function yippee() {
-	mainGrid.set(9, 1, 1);
+document.getElementById("play-pause-button").onclick = function() {
+	if (this.innerHTML == "▶️") {
+		gameStarted = true;
+		this.innerHTML = "⏸";
+	} else if (this.innerHTML == "⏸") {
+		gameStarted = false;
+		this.innerHTML = "▶️";
+	}
 }
