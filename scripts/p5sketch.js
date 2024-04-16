@@ -5,9 +5,8 @@ let _col_gridLines;
 let _gridWidth = 90;
 let _gridHeight = 40;
 
-const _cellSize = 10;
-const _canvasWidth = _cellSize * _gridWidth;
-const _canvasHeight = _cellSize * _gridHeight;
+const _canvasWidth = 900;
+const _canvasHeight = 400;
 
 class Grid {
 	constructor(width, height) {
@@ -69,11 +68,14 @@ function setup() {
 
 function draw() {
 	if (clock >= _clockInterval) {
+		drawGrid();
 		updateGrid();
 		clock = 0;
 	}
-	clock++;
+	clock++;	
+}
 
+function drawGrid() {
 	background(_col_background);
 	
 	for (let c = 0; c < _gridWidth; c++) {
@@ -87,7 +89,8 @@ function draw() {
 				noFill();
 			}
 
-			rect(c * _cellSize, r * _cellSize, _cellSize, _cellSize);
+			let cellSize = Math.min(Math.floor(_canvasWidth / _gridWidth), Math.floor(_canvasHeight / _gridHeight));
+			rect(c * cellSize, r * cellSize, cellSize, cellSize);
 		}
 	}
 }
@@ -103,4 +106,8 @@ function updateGrid() {
 	}
 
 	oldGrid.copyFrom(mainGrid);
+}
+
+function yippee() {
+	mainGrid.set(9, 1, 1);
 }
