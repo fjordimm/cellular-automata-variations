@@ -34,9 +34,6 @@ class CellTypes {
 	static addCellTypeToRadio(cellType) {
 		const form = document.getElementById("form-paint-radio");
 
-		form.appendChild(document.createTextNode(" "));
-		form.appendChild(document.createElement("br"));
-
 		const input = document.createElement("input");
 		input.id = `paint-radio-${cellType.name}`;
 		input.type = "radio";
@@ -56,9 +53,15 @@ class CellTypes {
 		colorLabel.style.backgroundColor = cellType.color;
 		form.appendChild(document.createTextNode(" "));
 		form.appendChild(colorLabel);
+
+		form.appendChild(document.createTextNode(" "));
+		form.appendChild(document.createElement("br"));
 	}
 
 	static {
+		this.addCellType("None", "rgb(25, 35, 40)");
+		document.getElementById("paint-radio-None").setAttribute("checked", true)
+
 		for (let i = 0; i < userCellTypesList.length; i++) {
 			const cellTypeParams = userCellTypesList[i];
 			this.addCellType(cellTypeParams[0], cellTypeParams[1], cellTypeParams[2]);
@@ -122,8 +125,8 @@ document.getElementById("speed-slider").oninput = function() { clockInterval = g
 function setup() {
 	createCanvas(_canvasWidth, _canvasHeight);
 
-	_col_background = color(9, 9, 30);
-	_col_gridLines = color(255, 255, 255);
+	_col_background = color(25, 35, 40);
+	_col_gridLines = color(0, 0, 0);
 	
 	mainGrid.set(1, 1, 1);
 	mainGrid.set(5, 3, 1);

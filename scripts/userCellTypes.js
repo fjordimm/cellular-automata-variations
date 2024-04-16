@@ -1,5 +1,6 @@
 
 userCellTypesList = [
-	["Funny", "green", null],
-	["Yippeeeeeeee", "orange", null]
+	["Conway", "#F0C800", function() {
+
+	}]
 ];
