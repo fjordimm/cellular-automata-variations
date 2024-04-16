@@ -23,6 +23,11 @@
 				align-items: center;
 				gap: 5px;
 			}
+
+			.plain-textarea {
+				resize: none;
+				text-align: center;
+			}
 		</style>
 	</head>
 
@@ -30,15 +35,17 @@
 		<main></main>
 
 		<div class="horiz">
-			<span>🕔</span>
-			<input id="speed-slider" type="range" min="1" max="100" value="40">
+			<span style="font-family: sans-serif">Speed</span>
+			<input id="speed-slider" type="range" min="1" max="100" value="50">
 		</div>
 
 		<div class="horiz">
 			<button id="undo-button">Undo</button>
-			<button id="play-pause-button">▶️</button>
+			<button id="start-button">Start<input type="checkbox" id="start-checkbox"></button>
 			<button id="next-button">Next</button>
 		</div>
+
+		<textarea id="gen-count" class="plain-textarea" cols="1" rows="1" readonly>0</textarea>
 
 		<div class="horiz" style="margin-top: 30px">
 			<button id="reset-button">Reset</button>

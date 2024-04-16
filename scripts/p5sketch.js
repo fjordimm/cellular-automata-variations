@@ -68,20 +68,24 @@ function setup() {
 	_col_background = color(9, 9, 30);
 	_col_gridLines = color(255, 255, 255);
 
-	clock = clockInterval;
+	clock = 0;
 	
 	mainGrid.set(1, 1, 1);
 	mainGrid.set(5, 3, 1);
 	oldGrid.copyFrom(mainGrid);
+
+	drawGrid();
 }
 
 function draw() {
-	if (clock >= clockInterval) {
-		drawGrid();
-		updateGrid();
-		clock = 0;
+	if (gameStarted) {
+		if (clock >= clockInterval) {
+			updateGrid();
+			drawGrid();
+			clock = 0;
+		}
+		clock++;
 	}
-	if (gameStarted) clock++;
 }
 
 function drawGrid() {
@@ -117,17 +121,17 @@ function updateGrid() {
 	oldGrid.copyFrom(mainGrid);
 }
 
-document.getElementById("play-pause-button").onclick = function() {
-	if (this.innerHTML == "▶️") {
+document.getElementById("start-button").onclick = function() {
+	if (document.getElementById("start-checkbox").checked == false) {
 		gameStarted = true;
-		this.innerHTML = "⏸";
-	} else if (this.innerHTML == "⏸") {
+		document.getElementById("start-checkbox").checked = true;
+	} else {
 		gameStarted = false;
-		this.innerHTML = "▶️";
+		document.getElementById("start-checkbox").checked = false;
 	}
 }
 
 document.getElementById("next-button").onclick = function() {
-	drawGrid();
 	updateGrid();
+	drawGrid();
 }
