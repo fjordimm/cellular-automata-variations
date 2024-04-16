@@ -58,8 +58,12 @@ class CellTypes {
 		form.appendChild(document.createElement("br"));
 	}
 
+	static getCellColor(index) {
+		return this.list[index].color;
+	}
+
 	static {
-		this.addCellType("None", "rgb(25, 35, 40)");
+		this.addCellType("None", "rgb(25, 30, 35)");
 		document.getElementById("paint-radio-None").setAttribute("checked", true)
 
 		for (let i = 0; i < userCellTypesList.length; i++) {
@@ -122,11 +126,18 @@ function getClockInterval(x) { return Math.floor(100 * Math.exp((x - 1) / 100 * 
 let clockInterval = getClockInterval(document.getElementById("speed-slider").value);
 document.getElementById("speed-slider").oninput = function() { clockInterval = getClockInterval(this.value); }
 
+let cellColors;
+
 function setup() {
 	createCanvas(_canvasWidth, _canvasHeight);
 
-	_col_background = color(25, 35, 40);
+	_col_background = color(25, 30, 35);
 	_col_gridLines = color(0, 0, 0);
+
+	cellColors = [];
+	for (let i = 0; i < CellTypes.total; i++) {
+		cellColors[i] = color(CellTypes.getCellColor(i));
+	}
 	
 	mainGrid.set(1, 1, 1);
 	mainGrid.set(5, 3, 1);
@@ -165,28 +176,33 @@ function draw() {
 
 function mouseReleased() {
 	if (!startedDrawingCells) return;
-
 	dummyNextGrid();
-
 	startedDrawingCells = false;
 }
 
 function drawGrid() {
 	background(_col_background);
 	
+	noStroke();
 	for (let c = 0; c < _gridWidth; c++) {
 		for (let r = 0; r < _gridHeight; r++) {
-			strokeWeight(1);
-			stroke(_col_gridLines);
-
-			if (mainGrid.get(c, r) == 1) {
-				fill(color(255, 0, 0));
-			} else {
-				noFill();
+			let cellId = mainGrid.get(c, r);
+			if (cellId < 0 || cellId > cellColors.length) {
+				throw new Error("Invalid cell id!");
+			} else if (cellId != 0) {
+				fill(cellColors[cellId]);
+				rect(c * _cellSize, r * _cellSize, _cellSize, _cellSize);
 			}
-
-			rect(c * _cellSize, r * _cellSize, _cellSize, _cellSize);
 		}
+	}
+
+	strokeWeight(1);
+	stroke(_col_gridLines);
+	for (let c = 0; c < _gridWidth + 1; c++) {
+		line(c * _cellSize, 0, c * _cellSize, _canvasHeight);
+	}
+	for (let r = 0; r < _gridHeight + 1; r++) {
+		line(0, r * _cellSize, _canvasWidth, r * _cellSize);
 	}
 }
 
