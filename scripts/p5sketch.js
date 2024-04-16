@@ -299,7 +299,7 @@ function prevGrid() {
 	oldGrid.copyFrom(gridHistory[genCount]);
 }
 
-function resetGrid() {
+function revertGrid() {
 	gridHistory = [gridHistory[0]];
 
 	genCount = 0;
@@ -343,8 +343,8 @@ document.getElementById("next-button").onclick = function() {
 	drawGrid();
 }
 
-document.getElementById("reset-button").onclick = function() {
-	resetGrid();
+document.getElementById("revert-button").onclick = function() {
+	revertGrid();
 	drawGrid();
 }
 
