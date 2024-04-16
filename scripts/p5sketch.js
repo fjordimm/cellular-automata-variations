@@ -10,6 +10,53 @@ const _canvasHeight = _canvasWidth * 0.5;
 
 let _cellSize = Math.min(_canvasWidth / _gridWidth, _canvasHeight / _gridHeight);
 
+class CellType {
+	constructor(id, name, color, ruleset) {
+		this.id = id;
+		this.name = name;
+		this.color = color;
+		this.ruleset = ruleset;
+	}
+}
+
+class CellTypes {
+	static total = 0;
+	static list = [];
+
+	static addCellType(name, color, ruleset) {
+		const cellType = new CellType(this.total, name, color, ruleset);
+		this.list[this.total] = cellType;
+		this.total++;
+
+		this.addCellTypeToRadio(cellType);
+	}
+
+	static addCellTypeToRadio(cellType) {
+		const form = document.getElementById("form-paint-radio");
+
+		form.appendChild(document.createTextNode(" "));
+		form.appendChild(document.createElement("br"));
+
+		const input = document.createElement("input");
+		input.id = `paint-radio-${cellType.name}`;
+		input.type = "radio";
+		input.name = "paint-radio";
+		input.value = cellType.name;
+		form.appendChild(document.createTextNode(" "));
+		form.appendChild(input);
+
+		const label = document.createElement("label");
+		label.htmlFor = input.id;
+		label.innerHTML = cellType.name;
+		form.appendChild(document.createTextNode(" "));
+		form.appendChild(label);
+	}
+
+	static {
+		this.addCellType("Bruh", "blue", null);
+	}
+}
+
 class Grid {
 	constructor(width, height) {
 		this.width = width;
@@ -230,3 +277,5 @@ document.getElementById("save-button").onclick = function() {
 	saveGrid();
 	drawGrid();
 }
+
+// console.log(document.forms['form-paint-radio']['paint-radio'].value);

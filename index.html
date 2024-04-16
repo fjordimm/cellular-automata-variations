@@ -24,6 +24,14 @@
 				gap: 5px;
 			}
 
+			.vert {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				gap: 5px;
+			}
+
 			.plain-textarea {
 				resize: none;
 				text-align: center;
@@ -32,9 +40,15 @@
 	</head>
 
 	<body>
-		<div class="horiz">
+		<div class="horiz" style="align-items: start">
 			<main></main>
-			<span>yo whattup</span>
+			<div class="vert">
+				<button id="clear-button">Clear</button>
+				<form id="form-paint-radio">
+					<input id="paint-radio-None" type="radio" name="paint-radio" value="None" checked>
+					<label for="paint-radio-None">None</label>
+				</form>
+			</div>
 		</div>
 
 		<div class="horiz">
