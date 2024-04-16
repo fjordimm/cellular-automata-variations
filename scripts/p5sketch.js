@@ -151,6 +151,18 @@ function prevGrid() {
 	oldGrid.copyFrom(gridHistory[genCount]);
 }
 
+function resetGrid() {
+	gridHistory = [gridHistory[0]];
+
+	genCount = 0;
+	document.getElementById("gen-count").innerHTML = genCount;
+
+	document.getElementById("prev-button").disabled = true;
+
+	mainGrid.copyFrom(gridHistory[genCount]);
+	oldGrid.copyFrom(gridHistory[genCount]);
+}
+
 document.getElementById("prev-button").onclick = function() {
 	prevGrid();
 	drawGrid();
@@ -168,5 +180,10 @@ document.getElementById("start-button").onclick = function() {
 
 document.getElementById("next-button").onclick = function() {
 	nextGrid();
+	drawGrid();
+}
+
+document.getElementById("reset-button").onclick = function() {
+	resetGrid();
 	drawGrid();
 }
