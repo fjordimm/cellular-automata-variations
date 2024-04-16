@@ -96,7 +96,7 @@ class Grid {
 
 	get(c, r) {
 		if (c < 0 || c >= this.width || r < 0 || r >= this.height) {
-			return -1;
+			return 0;
 		} else {
 			return this.mat[c][r];
 		}
@@ -147,8 +147,11 @@ function setup() {
 		cellColors[i] = color(CellTypes.getCellType(i).color);
 	}
 	
-	mainGrid.set(1, 1, 1);
-	mainGrid.set(5, 3, 1);
+	mainGrid.set(2, 1, CellTypes.getCellTypeId("Conway"));
+	mainGrid.set(3, 2, CellTypes.getCellTypeId("Conway"));
+	mainGrid.set(3, 3, CellTypes.getCellTypeId("Conway"));
+	mainGrid.set(2, 3, CellTypes.getCellTypeId("Conway"));
+	mainGrid.set(1, 3, CellTypes.getCellTypeId("Conway"));
 	oldGrid.copyFrom(mainGrid);
 
 	genCount = 0;
