@@ -2,10 +2,10 @@
 let _col_background;
 let _col_gridLines;
 
-let _gridWidth = 80;
-let _gridHeight = 40;
+let _gridWidth = 60;
+let _gridHeight = 30;
 
-const _canvasWidth = window.innerWidth * 0.7;
+const _canvasWidth = window.innerWidth * 0.6;
 const _canvasHeight = _canvasWidth * 0.5;
 
 class Grid {
@@ -125,4 +125,9 @@ document.getElementById("play-pause-button").onclick = function() {
 		gameStarted = false;
 		this.innerHTML = "▶️";
 	}
+}
+
+document.getElementById("next-button").onclick = function() {
+	drawGrid();
+	updateGrid();
 }
