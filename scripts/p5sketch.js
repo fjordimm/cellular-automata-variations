@@ -62,6 +62,14 @@ class CellTypes {
 		return this.list[index].color;
 	}
 
+	static getCellId(name) {
+		let id = 0;
+		while (id < this.list.length && this.list[id].name != name) {
+			id++;
+		}
+		return id;
+	}
+
 	static {
 		this.addCellType("None", "rgb(25, 30, 35)");
 		document.getElementById("paint-radio-None").setAttribute("checked", true)
@@ -120,6 +128,7 @@ let gridHistory;
 
 let gameStarted;
 let startedDrawingCells;
+let cellToPaint;
 let clock;
 
 function getClockInterval(x) { return Math.floor(100 * Math.exp((x - 1) / 100 * Math.log(1/100))) }
@@ -150,6 +159,7 @@ function setup() {
 
 	gameStarted = false;
 	startedDrawingCells = false;
+	cellToPaint = 0;
 	clock = 0;
 
 	drawGrid();
@@ -161,7 +171,7 @@ function draw() {
 
 		let c = Math.floor(mouseX / _cellSize);
 		let r = Math.floor(mouseY / _cellSize);
-		mainGrid.set(c, r, 1);
+		mainGrid.set(c, r, cellToPaint);
 
 		drawGrid();
 	} else if (gameStarted) {
@@ -178,6 +188,10 @@ function mouseReleased() {
 	if (!startedDrawingCells) return;
 	dummyNextGrid();
 	startedDrawingCells = false;
+}
+
+function keyPressed() {
+	
 }
 
 function drawGrid() {
@@ -313,8 +327,10 @@ document.getElementById("clear-button").onclick = function() {
 		}
 	}
 	dummyNextGrid();
-
 	drawGrid();
 }
 
-// console.log(document.forms['form-paint-radio']['paint-radio'].value);
+document.getElementById("form-paint-radio").onchange = function() {
+	const name = document.forms['form-paint-radio']['paint-radio'].value;
+	cellToPaint = CellTypes.getCellId(name);
+}
