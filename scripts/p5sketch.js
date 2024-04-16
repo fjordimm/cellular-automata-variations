@@ -20,13 +20,13 @@ class CellType {
 }
 
 class CellTypes {
-	static total = 0;
+	static size = 0;
 	static list = [];
 
 	static addCellType(name, color, ruleset) {
-		const cellType = new CellType(this.total, name, color, ruleset);
-		this.list[this.total] = cellType;
-		this.total++;
+		const cellType = new CellType(this.size, name, color, ruleset);
+		this.list[this.size] = cellType;
+		this.size++;
 
 		this.addCellTypeToRadio(cellType);
 	}
@@ -143,7 +143,7 @@ function setup() {
 	_col_gridLines = color(0, 0, 0);
 
 	cellColors = [];
-	for (let i = 0; i < CellTypes.total; i++) {
+	for (let i = 0; i < CellTypes.size; i++) {
 		cellColors[i] = color(CellTypes.getCellType(i).color);
 	}
 	
@@ -158,7 +158,7 @@ function setup() {
 
 	gameStarted = false;
 	startedDrawingCells = false;
-	cellToPaint = CellTypes.total - 1;
+	cellToPaint = CellTypes.size - 1;
 	document.getElementById(`paint-radio-${CellTypes.getCellType(cellToPaint).name}`).setAttribute("checked", true);
 	clock = 0;
 
@@ -193,8 +193,7 @@ function mouseReleased() {
 function keyPressed() {
 	if (keyCode >= 48 && keyCode <= 57) {
 		const id = keyCode - 48;
-		console.log(id);
-		if (id < CellTypes.total) {
+		if (id < CellTypes.size) {
 			cellToPaint = id;
 			document.forms['form-paint-radio']['paint-radio'].value = CellTypes.getCellType(cellToPaint).name;
 		}
@@ -233,9 +232,14 @@ function drawGrid() {
 function nextGrid() {
 	for (let c = 0; c < _gridWidth; c++) {
 		for (let r = 0; r < _gridHeight; r++) {
-			if (oldGrid.get(c, r) == 1) {
-				mainGrid.set(c + 1, r + 1, 1);
-				mainGrid.set(c, r, 0);
+			// if (oldGrid.get(c, r) == 1) {
+			// 	mainGrid.set(c + 1, r + 1, 1);
+			// 	mainGrid.set(c, r, 0);
+			// }
+
+			mainGrid.set(c, r, 0);
+			for (let i = 0; i < CellTypes.size; i++) {
+
 			}
 		}
 	}
