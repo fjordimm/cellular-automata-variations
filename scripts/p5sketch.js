@@ -9,31 +9,49 @@ const _cellSize = 10;
 const _canvasWidth = _cellSize * _gridWidth;
 const _canvasHeight = _cellSize * _gridHeight;
 
-let grid = [];
-function gridSetup() {
-	for (let c = 0; c < _gridWidth; c++) {
-		grid[c] = [];
-		for (let r = 0; r < _gridHeight; r++) {
-			grid[c][r] = 0;
+class Grid {
+	constructor(width, height) {
+		this.width = width;
+		this.height = height;
+
+		this.mat = [];
+		for (let c = 0; c < this.width; c++) {
+			this.mat[c] = [];
+			for (let r = 0; r < this.height; r++) {
+				this.mat[c][r] = 0;
+			}
 		}
 	}
 
-	grid[1][1] = 1;
-	grid[2][3] = 1;
-}
-gridSetup();
+	get(c, r) {
+		if (c < 0 || c >= this.width || r < 0 || r >= this.height) {
+			return -1;
+		} else {
+			return this.mat[c][r];
+		}
+	}
 
-let oldGrid = [];
-for (let i = 0; i < _gridWidth; i++) oldGrid[i] = [];
-function copyGrid(a, b) {
-	for (let c = 0; c < a.length; c++) {
-		for (let r = 0; r < a[0].length; r++) {
-			b[c][r] = a[c][r];
+	set(c, r, val) {
+		if (c < 0 || c >= this.width || r < 0 || r >= this.height) {
+			return;
+		} else {
+			this.mat[c][r] = val;
+		}
+	}
+
+	copyFrom(other) {
+		for (let c = 0; c < this.width; c++) {
+			for (let r = 0; r < this.height; r++) {
+				this.mat[c][r] = other.get(c, r);
+			}
 		}
 	}
 }
 
-let _clockInterval = 1;
+let mainGrid = new Grid(_gridWidth, _gridHeight);
+let oldGrid = new Grid(_gridWidth, _gridHeight);
+
+let _clockInterval = 3;
 let clock;
 
 function setup() {
@@ -43,7 +61,10 @@ function setup() {
 	_col_gridLines = color(150, 150, 250);
 
 	clock = 0;
-	copyGrid(grid, oldGrid);
+	
+	mainGrid.set(1, 1, 1);
+	mainGrid.set(5, 3, 1);
+	oldGrid.copyFrom(mainGrid);
 }
 
 function draw() {
@@ -60,7 +81,7 @@ function draw() {
 			strokeWeight(1);
 			stroke(_col_gridLines);
 
-			if (grid[c][r] == 1) {
+			if (mainGrid.get(c, r) == 1) {
 				fill(color(255, 0, 0));
 			} else {
 				noFill();
@@ -74,12 +95,12 @@ function draw() {
 function updateGrid() {
 	for (let c = 0; c < _gridWidth; c++) {
 		for (let r = 0; r < _gridHeight; r++) {
-			if (oldGrid[c][r] == 1) {
-				grid[c + 1][r] = 1;
-				grid[c][r] = 0;
+			if (oldGrid.get(c, r) == 1) {
+				mainGrid.set(c + 1, r + 1, 1);
+				mainGrid.set(c, r, 0);
 			}
 		}
 	}
 
-	copyGrid(grid, oldGrid);
+	oldGrid.copyFrom(mainGrid);
 }
