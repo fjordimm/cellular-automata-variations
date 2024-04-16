@@ -71,7 +71,7 @@ class CellTypes {
 	}
 
 	static {
-		this.addCellType("None", "rgb(25, 30, 35)");
+		this.addCellType("None", "rgb(25, 30, 35)", null);
 
 		for (let i = 0; i < userCellTypesList.length; i++) {
 			const cellTypeParams = userCellTypesList[i];
@@ -238,8 +238,12 @@ function nextGrid() {
 			// }
 
 			mainGrid.set(c, r, 0);
-			for (let i = 0; i < CellTypes.size; i++) {
-
+			for (let i = 1; i < CellTypes.size; i++) {
+				const res = CellTypes.getCellType(i).ruleset(oldGrid, c, r, 0, i, CellTypes);
+				console.log(`(${c}, ${r}): ${res}`);
+				if (res) {
+					mainGrid.set(c, r, i);
+				}
 			}
 		}
 	}
