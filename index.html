@@ -6,17 +6,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Cellular Automata Variations</title>
 
-		<script src="https://cdn.jsdelivr.net/npm/p5@1.9.1/lib/p5.js"></script>
-		<script src="./scripts/p5sketch.js"></script>
-
 		<style>
-			body
-			{
+			body {
 				display: flex;
 				flex-direction: column;
 				align-items: center;
 
 				margin-top: 50px;
+			}
+
+			.horiz {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
 			}
 		</style>
 	</head>
@@ -24,6 +27,14 @@
 	<body>
 		<main></main>
 
+		<div class="horiz">
+			<span>🕔</span>
+			<input id="speed-slider" type="range" min="1" max="100" value="30">
+		</div>
+
 		<button onclick="yippee()">yonk</button>
 	</body>
+
+	<script src="https://cdn.jsdelivr.net/npm/p5@1.9.1/lib/p5.js"></script>
+	<script src="./scripts/p5sketch.js"></script>
 </html>

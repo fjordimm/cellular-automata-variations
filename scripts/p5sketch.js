@@ -2,11 +2,11 @@
 let _col_background;
 let _col_gridLines;
 
-let _gridWidth = 90;
+let _gridWidth = 80;
 let _gridHeight = 40;
 
-const _canvasWidth = 900;
-const _canvasHeight = 400;
+const _canvasWidth = window.innerWidth * 0.7;
+const _canvasHeight = _canvasWidth * 0.5;
 
 class Grid {
 	constructor(width, height) {
@@ -50,8 +50,15 @@ class Grid {
 let mainGrid = new Grid(_gridWidth, _gridHeight);
 let oldGrid = new Grid(_gridWidth, _gridHeight);
 
-let _clockInterval = 3;
 let clock;
+
+function getClockInterval(x) {
+	return Math.floor(100 * Math.exp((x - 1) / 100 * Math.log(1/100)))
+}
+let clockInterval = getClockInterval(document.getElementById("speed-slider").value);
+document.getElementById("speed-slider").oninput = function() {
+	clockInterval = getClockInterval(this.value);
+}
 
 function setup() {
 	createCanvas(_canvasWidth, _canvasHeight);
@@ -59,7 +66,7 @@ function setup() {
 	_col_background = color(9, 9, 30);
 	_col_gridLines = color(150, 150, 250);
 
-	clock = 0;
+	clock = clockInterval;
 	
 	mainGrid.set(1, 1, 1);
 	mainGrid.set(5, 3, 1);
@@ -67,7 +74,7 @@ function setup() {
 }
 
 function draw() {
-	if (clock >= _clockInterval) {
+	if (clock >= clockInterval) {
 		drawGrid();
 		updateGrid();
 		clock = 0;
@@ -89,7 +96,7 @@ function drawGrid() {
 				noFill();
 			}
 
-			let cellSize = Math.min(Math.floor(_canvasWidth / _gridWidth), Math.floor(_canvasHeight / _gridHeight));
+			let cellSize = Math.min(_canvasWidth / _gridWidth, _canvasHeight / _gridHeight);
 			rect(c * cellSize, r * cellSize, cellSize, cellSize);
 		}
 	}
