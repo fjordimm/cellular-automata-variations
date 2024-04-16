@@ -56,6 +56,7 @@ let genCount;
 let gridHistory;
 
 let gameStarted;
+let startedDrawingCells;
 let clock;
 
 function getClockInterval(x) { return Math.floor(100 * Math.exp((x - 1) / 100 * Math.log(1/100))) }
@@ -78,7 +79,7 @@ function setup() {
 	gridHistory[0].copyFrom(mainGrid);
 
 	gameStarted = false;
-	mouseDown = false;
+	startedDrawingCells = false;
 	clock = 0;
 
 	drawGrid();
@@ -86,6 +87,8 @@ function setup() {
 
 function draw() {
 	if (mouseIsPressed && (mouseX >= 0 && mouseX <= _canvasWidth && mouseY >= 0 && mouseY <= _canvasHeight)) {
+		startedDrawingCells = true;
+
 		let c = Math.floor(mouseX / _cellSize);
 		let r = Math.floor(mouseY / _cellSize);
 		mainGrid.set(c, r, 1);
@@ -102,10 +105,12 @@ function draw() {
 }
 
 function mouseReleased() {
-	if (!(mouseX >= 0 && mouseX <= _canvasWidth && mouseY >= 0 && mouseY <= _canvasHeight)) return;
+	if (!startedDrawingCells) return;
 
 	dummyNextGrid();
 	oldGrid.copyFrom(mainGrid);
+
+	startedDrawingCells = false;
 }
 
 function drawGrid() {
