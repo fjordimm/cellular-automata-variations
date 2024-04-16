@@ -8,6 +8,8 @@ let _gridHeight = 30;
 const _canvasWidth = window.innerWidth * 0.6;
 const _canvasHeight = _canvasWidth * 0.5;
 
+let _cellSize = Math.min(_canvasWidth / _gridWidth, _canvasHeight / _gridHeight);
+
 class Grid {
 	constructor(width, height) {
 		this.width = width;
@@ -56,13 +58,9 @@ let gridHistory;
 let gameStarted;
 let clock;
 
-function getClockInterval(x) {
-	return Math.floor(100 * Math.exp((x - 1) / 100 * Math.log(1/100)))
-}
+function getClockInterval(x) { return Math.floor(100 * Math.exp((x - 1) / 100 * Math.log(1/100))) }
 let clockInterval = getClockInterval(document.getElementById("speed-slider").value);
-document.getElementById("speed-slider").oninput = function() {
-	clockInterval = getClockInterval(this.value);
-}
+document.getElementById("speed-slider").oninput = function() { clockInterval = getClockInterval(this.value); }
 
 function setup() {
 	createCanvas(_canvasWidth, _canvasHeight);
@@ -80,13 +78,20 @@ function setup() {
 	gridHistory[0].copyFrom(mainGrid);
 
 	gameStarted = false;
+	mouseDown = false;
 	clock = 0;
 
 	drawGrid();
 }
 
 function draw() {
-	if (gameStarted) {
+	if (mouseIsPressed && (mouseX >= 0 && mouseX <= _canvasWidth && mouseY >= 0 && mouseY <= _canvasHeight)) {
+		let c = Math.floor(mouseX / _cellSize);
+		let r = Math.floor(mouseY / _cellSize);
+		mainGrid.set(c, r, 1);
+
+		drawGrid();
+	} else if (gameStarted) {
 		if (clock >= clockInterval) {
 			nextGrid();
 			drawGrid();
@@ -94,6 +99,13 @@ function draw() {
 		}
 		clock++;
 	}
+}
+
+function mouseReleased() {
+	if (!(mouseX >= 0 && mouseX <= _canvasWidth && mouseY >= 0 && mouseY <= _canvasHeight)) return;
+
+	dummyNextGrid();
+	oldGrid.copyFrom(mainGrid);
 }
 
 function drawGrid() {
@@ -110,8 +122,7 @@ function drawGrid() {
 				noFill();
 			}
 
-			let cellSize = Math.min(_canvasWidth / _gridWidth, _canvasHeight / _gridHeight);
-			rect(c * cellSize, r * cellSize, cellSize, cellSize);
+			rect(c * _cellSize, r * _cellSize, _cellSize, _cellSize);
 		}
 	}
 }
@@ -128,6 +139,16 @@ function nextGrid() {
 
 	oldGrid.copyFrom(mainGrid);
 
+	genCount++;
+	document.getElementById("gen-count").innerHTML = genCount;
+
+	gridHistory[genCount] = new Grid(_gridWidth, _gridHeight);
+	gridHistory[genCount].copyFrom(mainGrid);
+
+	document.getElementById("prev-button").disabled = false;
+}
+
+function dummyNextGrid() {
 	genCount++;
 	document.getElementById("gen-count").innerHTML = genCount;
 
