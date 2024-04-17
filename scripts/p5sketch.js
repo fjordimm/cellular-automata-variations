@@ -388,6 +388,7 @@ document.getElementById("form-paint-radio").onchange = function() {
 	cellToPaint = CellTypes.getCellTypeId(name);
 }
 
+// Makes it so hitting space or enter doesn't activate the buttons
 document.querySelectorAll("button").forEach( function(item) {
     item.addEventListener('focus', function() {
         this.blur();

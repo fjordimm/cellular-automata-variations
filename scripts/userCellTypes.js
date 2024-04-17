@@ -31,7 +31,7 @@ userCellTypesList = [
 		let isMe = grid.get(c, r) == cellMe;
 
 		function isCool(x) {
-			return x == cellMe || x == cellOthers.getCellTypeId("Schmonway");
+			return x == cellMe;
 		}
 
 		let count = 0;
