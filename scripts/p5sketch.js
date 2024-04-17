@@ -117,6 +117,16 @@ class Grid {
 	}
 }
 
+// class GridHistory {
+// 	constructor(id, width, height) {
+// 		this.id = id;
+// 		this.width = width;
+// 		this.height = height;
+
+// 		this.history = [];
+// 	}
+// }
+
 let _col_background;
 let _col_gridLines;
 
@@ -222,17 +232,42 @@ function drawGrid() {
 	for (let c = 0; c < _gridWidth; c++) {
 		for (let r = 0; r < _gridHeight; r++) {
 			let cellId = mainGrid.get(c, r);
-			if (cellId < 0 || cellId > cellColors.length) {
-				throw new Error("Invalid cell id!");
-			} else if (cellId != 0) {
+			if (cellId < 0 || cellId > cellColors.length) throw new Error("Invalid cell id!");
+
+			if (cellId == 1) {
 				fill(cellColors[cellId]);
-				rect(c * _cellSize, r * _cellSize, _cellSize, _cellSize);
+			} else {
+				let count = 0;
+				let weightedCount = 0;
+				for (let i = 0; i < gridHistory.length; i++) {
+					if (gridHistory[i].get(c, r) == 1) {
+						count++;
+						weightedCount += 1 / (gridHistory.length - i)**2;
+					}
+				}
+
+				if (weightedCount < 0.1) {
+					noFill();
+				} else {
+					const hueVal = hue(cellColors[1]);
+					fill(color(`hsl(${hueVal}, 50%, ${100 * weightedCount}%)`));
+				}				
 			}
+
+			rect(c * _cellSize, r * _cellSize, _cellSize, _cellSize);
+
+			// if (cellId < 0 || cellId > cellColors.length) {
+			// 	throw new Error("Invalid cell id!");
+			// } else if (cellId != 0) {
+			// 	fill(cellColors[cellId]);
+			// 	rect(c * _cellSize, r * _cellSize, _cellSize, _cellSize);
+			// }
 		}
 	}
 
 	strokeWeight(1);
 	stroke(_col_gridLines);
+	noFill();
 	for (let c = 0; c < _gridWidth + 1; c++) {
 		line(c * _cellSize, 0, c * _cellSize, _canvasHeight);
 	}
@@ -247,7 +282,6 @@ function nextGrid() {
 			mainGrid.set(c, r, 0);
 			for (let i = 1; i < CellTypes.size; i++) {
 				const res = CellTypes.getCellType(i).ruleset(oldGrid, c, r, 0, i, CellTypes);
-				console.log(`(${c}, ${r}): ${res}`);
 				if (res) {
 					mainGrid.set(c, r, i);
 				}
