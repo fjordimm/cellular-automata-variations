@@ -213,6 +213,14 @@ function keyPressed() {
 	} else if (keyCode == 192 /* backtick */) {
 		cellToPaint = 0;
 		document.forms['form-paint-radio']['paint-radio'].value = CellTypes.getCellType(cellToPaint).name;
+	} else {
+		if (keyCode == 37 /* left arrow */) {
+			document.getElementById("prev-button").onclick();
+		} else if (keyCode == 32 /* space */) {
+			document.getElementById("start-button").onclick();
+		} else if (keyCode == 39 /* right arrow */) {
+			document.getElementById("next-button").onclick();
+		}
 	}
 }
 
@@ -334,8 +342,10 @@ function saveGrid() {
 }
 
 document.getElementById("prev-button").onclick = function() {
-	prevGrid();
-	drawGrid();
+	if (genCount > 0) {
+		prevGrid();
+		drawGrid();
+	}
 }
 
 document.getElementById("start-button").onclick = function() {
@@ -377,3 +387,9 @@ document.getElementById("form-paint-radio").onchange = function() {
 	const name = document.forms['form-paint-radio']['paint-radio'].value;
 	cellToPaint = CellTypes.getCellTypeId(name);
 }
+
+document.querySelectorAll("button").forEach( function(item) {
+    item.addEventListener('focus', function() {
+        this.blur();
+    })
+})
