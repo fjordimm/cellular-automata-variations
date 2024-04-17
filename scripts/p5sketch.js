@@ -117,16 +117,6 @@ class Grid {
 	}
 }
 
-// class GridHistory {
-// 	constructor(id, width, height) {
-// 		this.id = id;
-// 		this.width = width;
-// 		this.height = height;
-
-// 		this.history = [];
-// 	}
-// }
-
 let _col_background;
 let _col_gridLines;
 
@@ -166,11 +156,11 @@ function setup() {
 		cellColors[i] = color(CellTypes.getCellType(i).color);
 	}
 	
-	mainGrid.set(2, 1, CellTypes.getCellTypeId("Conway"));
-	mainGrid.set(3, 2, CellTypes.getCellTypeId("Conway"));
-	mainGrid.set(3, 3, CellTypes.getCellTypeId("Conway"));
-	mainGrid.set(2, 3, CellTypes.getCellTypeId("Conway"));
-	mainGrid.set(1, 3, CellTypes.getCellTypeId("Conway"));
+	// mainGrid.set(2, 1, CellTypes.getCellTypeId("Conway"));
+	// mainGrid.set(3, 2, CellTypes.getCellTypeId("Conway"));
+	// mainGrid.set(3, 3, CellTypes.getCellTypeId("Conway"));
+	// mainGrid.set(2, 3, CellTypes.getCellTypeId("Conway"));
+	// mainGrid.set(1, 3, CellTypes.getCellTypeId("Conway"));
 	oldGrid.copyFrom(mainGrid);
 
 	genCount = 0;
