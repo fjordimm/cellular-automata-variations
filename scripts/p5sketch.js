@@ -198,7 +198,7 @@ function draw() {
 		drawGrid();
 	} else if (gameStarted) {
 		if (clock >= clockInterval) {
-			nextGrid();
+			nextGrid(true);
 			drawGrid();
 			clock = 0;
 		}
@@ -249,10 +249,6 @@ function drawGrid() {
 					}
 				}
 			}
-			// if (cellId != 0) {
-			// 	fill(cellColors[cellId]);
-			// 	rect(c * _cellSize, r * _cellSize, _cellSize, _cellSize);
-			// }
 		}
 	}
 
@@ -267,7 +263,7 @@ function drawGrid() {
 	}
 }
 
-function nextGrid() {
+function nextGrid(stopOnRedundance=false) {
 	for (let c = 0; c < _gridWidth; c++) {
 		for (let r = 0; r < _gridHeight; r++) {
 			mainGrid.set(c, r, 0);
@@ -280,8 +276,7 @@ function nextGrid() {
 		}
 	}
 
-	// Stop playing if there is no change
-	if (oldGrid.equals(mainGrid)) {
+	if (stopOnRedundance && oldGrid.equals(mainGrid)) {
 		gameStarted = false;
 		document.getElementById("start-checkbox").checked = false;
 	} else {
