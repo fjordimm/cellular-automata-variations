@@ -120,8 +120,8 @@ class Grid {
 let _col_background;
 let _col_gridLines;
 
-let _gridWidth = 60;
-let _gridHeight = 30;
+let _gridHeight = 100;
+let _gridWidth = _gridHeight * 2;
 
 const _canvasWidth = window.innerWidth * 0.6;
 const _canvasHeight = _canvasWidth * 0.5;
