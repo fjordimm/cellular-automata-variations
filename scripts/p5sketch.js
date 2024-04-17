@@ -1,15 +1,4 @@
 
-let _col_background;
-let _col_gridLines;
-
-let _gridWidth = 60;
-let _gridHeight = 30;
-
-const _canvasWidth = window.innerWidth * 0.6;
-const _canvasHeight = _canvasWidth * 0.5;
-
-let _cellSize = Math.min(_canvasWidth / _gridWidth, _canvasHeight / _gridHeight);
-
 class CellType {
 	constructor(id, name, color, ruleset) {
 		this.id = id;
@@ -71,7 +60,7 @@ class CellTypes {
 	}
 
 	static {
-		this.addCellType("None", "rgb(25, 30, 35)", null);
+		this.addCellType("None", "#000000", null);
 
 		for (let i = 0; i < userCellTypesList.length; i++) {
 			const cellTypeParams = userCellTypesList[i];
@@ -128,6 +117,19 @@ class Grid {
 	}
 }
 
+let _col_background;
+let _col_gridLines;
+
+let _gridWidth = 60;
+let _gridHeight = 30;
+
+const _canvasWidth = window.innerWidth * 0.6;
+const _canvasHeight = _canvasWidth * 0.5;
+
+let _cellSize = Math.min(_canvasWidth / _gridWidth, _canvasHeight / _gridHeight);
+
+let cellColors;
+
 let mainGrid = new Grid(_gridWidth, _gridHeight);
 let oldGrid = new Grid(_gridWidth, _gridHeight);
 
@@ -143,13 +145,11 @@ function getClockInterval(x) { return Math.floor(100 * Math.exp((x - 1) / 100 * 
 let clockInterval = getClockInterval(document.getElementById("speed-slider").value);
 document.getElementById("speed-slider").oninput = function() { clockInterval = getClockInterval(this.value); }
 
-let cellColors;
-
 function setup() {
 	createCanvas(_canvasWidth, _canvasHeight);
 
-	_col_background = color(25, 30, 35);
-	_col_gridLines = color(0, 0, 0);
+	_col_background = color(0, 0, 0);
+	_col_gridLines = color(30, 30, 30);
 
 	cellColors = [];
 	for (let i = 0; i < CellTypes.size; i++) {
