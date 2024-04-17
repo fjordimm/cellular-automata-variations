@@ -210,6 +210,7 @@ function mouseReleased() {
 	if (!startedDrawingCells) return;
 	dummyNextGrid();
 	startedDrawingCells = false;
+	drawGrid();
 }
 
 function keyPressed() {
