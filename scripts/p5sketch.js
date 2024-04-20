@@ -214,12 +214,14 @@ function keyPressed() {
 		cellToPaint = 0;
 		document.forms['form-paint-radio']['paint-radio'].value = CellTypes.getCellType(cellToPaint).name;
 	} else {
-		if (keyCode == 37 /* left arrow */) {
-			document.getElementById("prev-button").onclick();
-		} else if (keyCode == 32 /* space */) {
+		if (keyCode == 32 /* space */) {
 			document.getElementById("start-button").onclick();
+		} else if (keyCode == 37 /* left arrow */) {
+			document.getElementById("prev-button").onclick();
 		} else if (keyCode == 39 /* right arrow */) {
 			document.getElementById("next-button").onclick();
+		} else if (keyCode == 88 /* X */) {
+			document.getElementById("clear-button").onclick();
 		}
 	}
 }
