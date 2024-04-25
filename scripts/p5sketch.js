@@ -170,9 +170,10 @@ function setup() {
 
 	gameStarted = false;
 	startedDrawingCells = false;
+	clock = 0;
+
 	cellToPaint = CellTypes.size - 1;
 	document.getElementById(`paint-radio-${CellTypes.getCellType(cellToPaint).name}`).setAttribute("checked", true);
-	clock = 0;
 
 	drawGrid();
 }
